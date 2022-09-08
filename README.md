@@ -2,7 +2,7 @@
 
 ## Setup
 1. Clone the repo, then install the dependencies in ``requirements.sh``
-2. In ``env.txt`` include your HuggingFace token and the Discord token for your bot
+2. In ``env.txt`` include your **HuggingFace token** and the **Discord token** for your bot
 3. Simply change the name of ``env.txt`` to ``.env`` with the following command (please remember to neglect the $ in the beginning)
 ```$ mv env.txt .env```
 4. Then simply execute the script. Or you can follow the steps in host_command.txt to execute that in background

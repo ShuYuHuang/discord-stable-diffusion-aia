@@ -1,6 +1,6 @@
 ## Hugginface Interaction
 from huggingface_hub.hf_api import HfApi,HfFolder
-from huggingface_hub.commands.user import _login as hf_login
+from huggingface_hub.commands.user import LogoutCommand, _login as hf_login
 
 ## Model
 import torch
@@ -54,27 +54,29 @@ try:
     @bot.command()
     async def dream(ctx, *, prompt):
         """Generate an image from a text prompt using the stable-diffusion model"""
-        embed = discord.Embed()
-        embed.set_footer(text=prompt)
+        
         start_time=time.time()
 
         ## Temperary message during waiting
-        msg = await ctx.send(f"“{prompt}”\n> Generating...")
+        msg = await ctx.send(f"“{prompt}”\n> Generating...",delete_after=1.0)
         
-        ## Temperary message during waiting
+        ## Run model
         with torch.cuda.device("cuda:0"),autocast():
             images = pipe(prompt, **cfg)["sample"]
-
-        duration=time.time()-start_time        
+            
+        duration=time.time()-start_time
+        
+        ## Form return message
+        embed = discord.Embed()
+        embed.set_footer(text=f"{prompt}\n(Finished in {duration: .02f} seconds)")
         with BytesIO() as buffer:
             images[0].save(buffer, 'PNG')
             buffer.seek(0)
+            
             await ctx.send(embed=embed, file=discord.File(fp=buffer, filename='0.png')) 
         
-        await msg.edit(content=f"Finished in {duration: .02f} seconds")
-        
     bot.run(os.environ["DISCORD_TOKEN"])
-except KeyboardInterrupt:
+except :
     ## log out hugginface
     print("Interruped, Log out from Hugginface")
     LogoutCommand(None).run()
