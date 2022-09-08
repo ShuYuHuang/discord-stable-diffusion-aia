@@ -1,41 +1,39 @@
-# Shanghai - AI Powered Art in a Discord Bot!
-
-<img src=https://cdn.discordapp.com/attachments/971549874514444358/1012400070559277086/1502073419.png?3867929 width=50% height=50%>
-
-### Any questions or need help? Come hop on by to our Discord server!
-
-[![Discord Server](https://discordapp.com/api/guilds/930499730843250783/widget.png?style=banner2)](https://discord.gg/Sx6Spmsgx7)
-
+# AIA bot 1 - Discord Bot for Stable Diffuser!
 
 ## Setup
-Clone the repo, then install the dependencies in ``requirements.txt``, then in ``run.bat`` include your HuggingFace token and the Discord token for your bot, then simply execute the script.
+1. Clone the repo, then install the dependencies in ``requirements.sh``
+2. In ``env.txt`` include your HuggingFace token and the Discord token for your bot
+3. Simply change the name of ``env.txt`` to ``.env`` with the following command (please remember to neglect the $ in the beginning)
+```$ mv env.txt .env```
+4. Then simply execute the script. Or you can follow the steps in host_command.txt to execute that in background
 
-Or, if you want to skip the batch script, you can simply run this in a terminal.
-
-``$ python . --token=DISCORD_TOKEN --hf_token=HF_TOKEN``
+```$ python bot.py```
 
 ### Quickstart
 #### Text to Image
 
-To generate an image from text, use the ``/dream`` command and include your prompt as the query. There's tons of parameters to play with so go wild!
+To generate an image from text, use the ``!dream`` command and include your prompt as the query. Enjoy
 
-![image](https://user-images.githubusercontent.com/26317155/186722689-3cbca12a-531c-47f7-b87f-99918e9ed232.png)
+"!dream A portrait of a white bunny resting under moonlight , a highly intricate and hyperdetailed matte painting by Huang Guangjian, Anna Dittmann and Dan Witz, fantasy art, album cover art, celestial"
+![image](https://cdn.discordapp.com/attachments/1015428907379462154/1017271908208738344/0.png)
 
-![image](https://user-images.githubusercontent.com/26317155/186721768-3684f629-90c3-4ef2-82b8-1310200df437.png)
-
-
-#### Image to Image
-
-To generate an image from another image, use the ``/translate`` command and include a prompt and an image URL.
-
-![image](https://user-images.githubusercontent.com/26317155/186722463-ec3a6d24-36c1-48f8-b09a-57651706848c.png)
-
-![image](https://user-images.githubusercontent.com/26317155/186722528-7e652a21-fd02-4071-9fc1-87a31dfb6e63.png)
-
-
-#### (Experimental) Inpainting
-
-To fill in a mask in an image, supply a prompt, an image url, and a url to a mask of black pixels in a transparent image
-
-![image](https://user-images.githubusercontent.com/26317155/186722970-71a662dc-16a8-4bb4-8696-3bafb3e08e65.png)
-
+## Citation
+```
+@InProceedings{Rombach_2022_CVPR,
+  author    = {Rombach, Robin and Blattmann, Andreas and Lorenz, Dominik and Esser, Patrick and Ommer, Bj\"orn},
+  title     = {High-Resolution Image Synthesis With Latent Diffusion Models},
+  booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
+  month     = {June},
+  year      = {2022},
+  pages     = {10684-10695}
+}
+```
+The method of using diffuser model is taken from:
+```
+https://github.com/huggingface/diffusers
+https://github.com/replicate/cog-stable-diffusion
+```
+The method of deploying discord bot is taken from:
+```
+https://github.com/harubaru/discord-stable-diffusion
+```

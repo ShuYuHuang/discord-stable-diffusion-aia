@@ -1,1 +1,0 @@
-python . --token="" --hf_token=""

@@ -1,0 +1,11 @@
+sudo apt-get install screen
+
+# Get into background terminal
+screen
+
+# In screen, start the bot server
+python bot.py
+
+# Then press ctrl+A+D to leave that background terminal
+
+# If you want to go back and manage that bot, use ``$ screen -r`` to return to background terminal
