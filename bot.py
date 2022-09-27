@@ -29,19 +29,20 @@ try:
     intents = discord.Intents.default()
     # intents.message_content = True
     
-
-    ## Initial model
-    with torch.cuda.device("cuda:0"):
-        pipe = StableDiffusionPipeline.from_pretrained("CompVis/stable-diffusion-v1-4", revision="fp16", torch_dtype=torch.float16, use_auth_token=True)
-        pipe = pipe.to("cuda")
+    print("Start Loading Stable Diffusion Pipeline")
     
-    # get config from .env file
+    # get config from .env file    
     cfg=dict( 
         num_inference_steps=int(os.environ["INFERENCE_STEPS"]),
         # generator=torch.Generator("cuda").manual_seed(124),
         height=int(os.environ["HEIGHT"]), 
         width=int(os.environ["WIDTH"])
     )
+    mydevice=os.environ["DEVICE"]
+    ## Initial model
+    with torch.cuda.device(mydevice):
+        pipe = StableDiffusionPipeline.from_pretrained("CompVis/stable-diffusion-v1-4", revision="fp16", torch_dtype=torch.float16, use_auth_token=True)
+        pipe = pipe.to(mydevice)
     
     ## Setup Chatbot
     bot = commands.Bot(
@@ -61,7 +62,7 @@ try:
         msg = await ctx.send(f"“{prompt}”\n> Generating...",delete_after=1.0)
         
         ## Run model
-        with torch.cuda.device("cuda:0"),autocast():
+        with torch.cuda.device(mydevice),autocast():
             images = pipe(prompt, **cfg)["sample"]
             
         duration=time.time()-start_time
