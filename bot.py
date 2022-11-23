@@ -1,6 +1,7 @@
 ## Hugginface Interaction
 from huggingface_hub.hf_api import HfApi,HfFolder
-from huggingface_hub.commands.user import LogoutCommand, _login as hf_login
+from huggingface_hub.commands.user import LogoutCommand
+from huggingface_hub._login import login as hf_login
 
 ## Model
 import torch
@@ -23,11 +24,11 @@ try:
     load_dotenv()
 
     ## log in hugginface
-    hf_login(HfApi(), token=os.environ["HF_TOKEN"])
+    hf_login(token=os.environ["HF_TOKEN"])
     
     ## Open intent recepter
     intents = discord.Intents.default()
-    intents.message_content = True
+    #intents.message_content = True
     
     print("Start Loading Stable Diffusion Pipeline")
     
@@ -41,7 +42,8 @@ try:
     mydevice=os.environ["DEVICE"]
     ## Initial model
     with torch.cuda.device(mydevice):
-        pipe = StableDiffusionPipeline.from_pretrained("CompVis/stable-diffusion-v1-4", revision="fp16", torch_dtype=torch.float16, use_auth_token=True)
+        model_id = "runwayml/stable-diffusion-v1-5" # "runwayml/stable-diffusion-v1-5" "CompVis/stable-diffusion-v1-4"
+        pipe = StableDiffusionPipeline.from_pretrained(model_id, revision="fp16", torch_dtype=torch.float16, use_auth_token=True)
         pipe = pipe.to(mydevice)
     
     ## Setup Chatbot
@@ -63,7 +65,7 @@ try:
         
         ## Run model
         with torch.cuda.device(mydevice),autocast():
-            images = pipe(prompt, **cfg)["sample"]
+            images = pipe(prompt, **cfg).images#["sample"]
             
         duration=time.time()-start_time
         
