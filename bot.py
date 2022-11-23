@@ -27,7 +27,7 @@ try:
     
     ## Open intent recepter
     intents = discord.Intents.default()
-    # intents.message_content = True
+    intents.message_content = True
     
     print("Start Loading Stable Diffusion Pipeline")
     
