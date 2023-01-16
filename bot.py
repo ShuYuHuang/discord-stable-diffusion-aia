@@ -6,7 +6,7 @@ from huggingface_hub._login import login as hf_login
 ## Model
 import torch
 from torch.cuda.amp import autocast
-from diffusers import StableDiffusionPipeline
+from diffusers import DiffusionPipeline, DPMSolverMultistepScheduler
 
 ## Discord interaction
 import discord
@@ -42,8 +42,9 @@ try:
     mydevice=os.environ["DEVICE"]
     ## Initial model
     with torch.cuda.device(mydevice):
-        model_id = "runwayml/stable-diffusion-v1-5" # "runwayml/stable-diffusion-v1-5" "CompVis/stable-diffusion-v1-4"
-        pipe = StableDiffusionPipeline.from_pretrained(model_id, revision="fp16", torch_dtype=torch.float16, use_auth_token=True)
+        model_id = "stabilityai/stable-diffusion-2-base" # "runwayml/stable-diffusion-v1-5" # "runwayml/stable-diffusion-v1-5" "CompVis/stable-diffusion-v1-4"
+        pipe = DiffusionPipeline.from_pretrained(model_id, revision="fp16", torch_dtype=torch.float16, use_auth_token=True)
+        pipe.scheduler = DPMSolverMultistepScheduler.from_config(pipe.scheduler.config)
         pipe = pipe.to(mydevice)
     
     ## Setup Chatbot
